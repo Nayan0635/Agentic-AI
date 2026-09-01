@@ -1,0 +1,18 @@
+terminal
+python -m uvicorn main:app --reload --port 3000
+
+postman->url->check
+
+
+
+ERROR:    [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions
+<<port is already being used by another application>>
+either you change port
+1. search for it
+</>cmd
+netstat -ano | findstr :3000
+>>netstat -ano | findstr :3000
+  TCP    127.0.0.1:3000         0.0.0.0:0              LISTENING       1260
+2. stop it--> portID is 1260
+</>
+taskkill /PID 1260 /F

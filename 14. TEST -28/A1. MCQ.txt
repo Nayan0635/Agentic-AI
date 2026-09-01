@@ -1,0 +1,60 @@
+1. Python is a:
+c) High-level language
+2. Which keyword is used to define a function in Python?
+c) def
+3. Which data type is immutable?
+d) Tuple
+What is the output of:
+print(len([1,2,3,4]))
+b) 4
+Which symbol is used for comments in Python?
+b) #
+Which method adds an element to a list?
+append()
+Dictionary values are accessed using:
+b) Key
+Which library is commonly used for OpenAI integration in Python?
+c) openai
+What does LLM stand for?
+a) Large Language Model
+Which function converts JSON string into Python object?
+b) json.loads()
+Agentic AI mainly focuses on:
+b) Autonomous decision making
+Which of the following is a valid Python list?
+c) [1,2,3]
+What is the output?
+x = (1,2,3)
+print(type(x))
+b) tuple
+Which loop is used when number of iterations is known?
+b) for
+Which module is used for environment variables in Python?
+a) dotenv
+b) random
+c) math
+d) csv
+In OpenAI API, prompt means:
+b) User instruction/input
+Which method removes an item from dictionary?
+c) pop()
+Which company developed ChatGPT? 
+c) OpenAI
+Which keyword is used for exception handling?
+try
+AI Agent can: 
+d) (Observe, Reason, Take actions) All of the above
+
+
+
+
+
+
+
+
+
+
+
+
+
+json.dumps() : Python object --> JSON string.

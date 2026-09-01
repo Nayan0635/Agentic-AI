@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        async function loadUsers() {
+            try {
+                let response = await fetch("http://localhost:3000/api/users"); let users = await response.json();
+                console.log(response);
+                let tableContent = `
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Age:</th>
+                            <th>Gender:</th>
+                        </tr>
+                        <tbody>    
+                `;
+                for (let user of users) {
+                    tableContent += `
+                       <tr>
+                        <td>${user.name}</td>
+                        <td>${user.age}</td>
+                        <td>${user.gender}</td>
+                        </tr>
+                      `;
+                }
+
+                tableContent += `</tbody></table>`;
+                console.log(tableContent);
+                document.getElementById("d1").innerHTML = tableContent;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="loadUsers()">Load All Users:</button>
+    <div id="d1"><!--innerHTML--></div>
+</body>
+
+</html>

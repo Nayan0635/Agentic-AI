@@ -1,0 +1,13 @@
+craeting agent using Langchain framework
+
+1. OpenAI
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+
+2. Gemini >>gemini needs parser
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prmpts import PromptTemplate
+from langchain_coreoutput_parsers import StrOutputParser
+
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

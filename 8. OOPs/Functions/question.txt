@@ -1,0 +1,7 @@
+Assignment :
+1)Check a String whether it is Palindrome or Not using OOP way.
+2)Check a number whether it is Duck Number or not.
+   if a number contains 0 apart from first position is called Duck number.
+3)Calculate Factorial and Factorial Series.
+4)Temperature Converter [C<->F]
+5)Currency Converter. [INR <->USD]

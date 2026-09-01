@@ -1,0 +1,11 @@
+list[]
+(i) list is mutable means editable ater creating a list
+(ii) good for frequently changing data.
+(iii) needs more memory because it allows modifications
+(iv) have more methods(insert, append, reverse, remove, sort)
+
+tuple()
+(i) tuple is immutable means we can not edit a tuple after it's created 
+(ii) good for constant data.
+(iii) requires less memory because its size is fixed after creation
+(iv) have fewer methods(count, index)

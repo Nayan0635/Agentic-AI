@@ -1,0 +1,55 @@
+from functions import *
+#Here OpenAI tools defination in JSON Goes here
+tools = [{
+    "type":"function",
+    "function":{
+        "name":"addNumbers",
+        "description":addNumbers.__doc__,
+        "parameters":{
+            "type":"object",
+            "properties":{
+                "a":{"type":"number"},
+                "b":{"type":"number"}
+            },
+            "required":['a','b']
+        }
+    }
+},
+   {
+       "type":"function",
+       "function":{
+           "name":"multiplyNumbers",
+           "description": multiplyNumbers.__doc__ ,
+           "parameters":{
+               "type":"object",
+               "properties":{
+                   "a":{"type":"number"},
+                   "b":{"type":"number"}
+               },
+               "required":['a','b']
+           }
+       }
+   },
+   {
+       "type":"function",
+       "function":{
+           "name":"saveFile",
+           "description":saveFile.__doc__,
+           "parameters":{
+               "type":"object",
+               "properties":{
+                   "content":{"type":"string"}
+               },
+               "required":['content']
+           }
+       }
+   },
+   {
+       "type":"function",
+       "function":{
+           "name":"readFile",
+           "description":readFile.__doc__,
+           "parameters":{}
+       }
+   }
+]

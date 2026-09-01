@@ -1,0 +1,52 @@
+.env <<
+key = you provide your generated api key here
+openai_api_key = cjMARiNaJCJ5aY0Xc8....
+gemini_api_key = gOW7hEoYM8G5Ip7IA...
+
+chatbot.py <<
+from openai import OpenAI -->suggested don't worry
+from google import genai
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+<>connect to openai</>
+client = OpenAI(api_key = os.getenv("openai_api_key"))
+
+while True:
+    user_input = input("Your Prompt :")
+    <>Terminate</>
+    if user_input.lower() == 'exit'
+        print('Cya! Have a good Day!!)
+        exit(0)
+
+    response = client.chat.completion.create(
+        model = 'gpt-4.1-mini', #---> model name
+        temperature = 1,  #0/1 ->accurate answer // creative answer
+        messages = [
+            {
+                "role" : "system", "content" : '''
+                -specify restriction answer only these 
+                -for other queries simply deny or say "I can't "
+                '''
+            }
+
+            {
+                "role" : "user", "content" : user_input
+            }
+        ]
+    )
+    msg = response.choices[0].message.content
+    print("Bot Reply: ", msg)
+
+    <>connect to gemini</>
+    _client = genai.Client(api_key = os.getenv("gemini_api_key"))
+
+while True:
+    user_input = input("Your Prompt :")
+    <>Terminate</>
+    if user_input.lower() == 'exit'
+        print('Cya! Have a good Day!!)
+
+    response = 

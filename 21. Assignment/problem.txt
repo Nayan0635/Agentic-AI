@@ -1,0 +1,10 @@
+students(student_id,name,email,address)
+courses(course_id,course_name)
+enrollments(enrollment_id,enrollment_date,student_id[FK],course_id[FK])
+
+
+Task : Create an Agent using OpenAI/Gemini who will responsible for adding new student into the database along with course and enrollments.
+Prompt should be look a like :  add a student name=John Doe email=john@gmail.com address=LA course=React
+
+Show all students by their enrollment date & courses .
+Prompt -> show all student

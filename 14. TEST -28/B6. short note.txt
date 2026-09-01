@@ -1,0 +1,13 @@
+1. prompt engineering:
+    prompt engineering is the process of writing clear effective instructions(prompts) for ai models to generate desired response or output.
+        with good prompt we can improve the response quality, can prevent ai models genrating irrelevant answers.
+
+
+2. Large Language Model(LLM):
+    LLM is an ai model that is trained on enormous amopunt of data set to understand and generate response.
+
+    1. understand natural langugage
+    2. answer questions, provide any information
+    3. process text nnd write code
+
+    example: perplexity, chatgpt, gemini, claude, grok, deepseek

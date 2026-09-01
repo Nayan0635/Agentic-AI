@@ -1,0 +1,12 @@
+-- database: ./database/usersDB.sqlite3
+
+insert into users(Name, Email) values('Rover', 'arbiter@gmail.com');
+insert into users(Name, Email) values('Yangyang', 'resonator@hotmail.com');
+insert into users(Name, Email) values('Chixie', 'patroler@gmail.com');
+insert into users(Name, Email) values('Jinshi', 'magistrate@mail.com');
+insert into users(Name, Email) values('Baizhi', 'resercher@yopmail.com');
+
+delete from users;
+DELETE FROM sqlite_sequence WHERE name = 'users';
+
+SELECT * FROM users where uid= 2;

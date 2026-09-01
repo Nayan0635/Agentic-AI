@@ -1,0 +1,31 @@
+1. Testing only FastAPI
+
+1. Open app.py
+2. Open Terminal
+3. Run
+python -m uvicorn app:app --reload --port 3000
+4. Wait until
+http://127.0.0.1:3000
+appears
+5. Open browser
+6. Visit
+http://127.0.0.1:3000/api/users
+
+2. HTML + FastAPI
+
+1. Open app.py
+2. Open Terminal
+3. Run
+python -m uvicorn app:app --reload --port 3000
+4. Leave that terminal running
+5. Open user.html
+6. Click Go Live
+7. Browser opens
+http://127.0.0.1:5500/user.html
+8. Click "Load All Users"
+9. HTML fetches data from
+http://localhost:3000/api/users
+10. FastAPI sends JSON
+11. HTML displays the table
+
+

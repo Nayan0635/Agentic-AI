@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+           async function allStudents(){
+               let students = await fetch("http://localhost:3000/api/students/all");
+               students = await students.json();
+               console.log(students);
+               var strContent=`
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Email:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+               `;
+               for(let student of students){
+                   strContent+=`
+                    <tr>
+                        <td>${student.name}</td>
+                        <td>${student.email}</td>
+                    </tr>
+                   `;
+               }
+               strContent+=`</tbody></table>`;
+               document.getElementById("d1").innerHTML=strContent; 
+            }
+         async function addStudent(event){
+              event.preventDefault();
+              var data = {
+                'name':document.getElementById("name").value,
+                'email':document.getElementById("email").value
+              };
+              console.log(data);
+              let response = await fetch("http://localhost:3000/api/students/add",{
+                method:'POST',
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify(data)
+              })
+              response = response.json();
+              console.log(response);
+         }    
+        addEventListener("load",allStudents());   
+    </script>
+</head>
+<body>
+     <div id="d1"></div> 
+     
+     <form onsubmit="addStudent(event)">
+        <div>Name : <input type="text" id="name" required></div>
+        <div>Email : <input type="email" name="email" id="email" required></div>
+        <div><button>Submit</button></div>
+     </form>
+</body>
+</html>

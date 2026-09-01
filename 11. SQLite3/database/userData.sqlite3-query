@@ -1,0 +1,20 @@
+-- database: ./userData.sqlite3
+
+CREATE TABLE Employee(
+    emp_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT UNIQUE,
+    sal INTEGER CHECK(sal >= 10000)
+);
+
+insert into Employee(emp_id, name, email, sal) values(2200180, 'Nayan', 'nayan@hotmail.com', 29864);
+
+INSERT INTO Employee(name, email, sal) values('Sourav', 'sourav@mail.com', 23741);
+INSERT INTO Employee(name, email, sal) values('Subham', 'subham@mail.com', 23741);
+INSERT INTO Employee(name, email, sal) values('Sudip', 'sudip@mail.com', 23741);
+UPDATE Employee SET email = 'sudip@outlook.com' WHERE name = 'Sudip';
+UPDATE Employee SET sal = 76542 WHERE name = 'Sudip';
+UPDATE Employee SET sal = 18723 WHERE name = 'Sourav';
+UPDATE Employee SET sal = 28734 WHERE name = 'Subham';
+
+UPDATE Employee SET sal = 87324 WHERE name = 'Sourav';

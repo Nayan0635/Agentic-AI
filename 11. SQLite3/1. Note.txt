@@ -1,0 +1,15 @@
+An embedded system,
+in the context of software development and database applications like SQLite,
+refers to an environment where the database is directly integrated into the client application rather than running on a separate,
+dedicated database server.
+
+SQLite Editor
+
+import sqlite3
+# sqlite3 is a built-in Python module for working with SQLite databases.
+
+sqlite3.connect("database/usersData.sqlite3")
+# connect() is a function of the sqlite3 module.
+# It opens (or creates if it doesn't exist) the database file and
+# returns a Connection object.
+

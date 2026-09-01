@@ -1,0 +1,12 @@
+1. What is OOP?
+2. What is the difference between a class and an object?
+3. What is abstraction?
+4. What is an abstract class?
+5. What is an interface?
+6. Explain all types of inheritance.
+7. What is multiple inheritance?
+8. What is MRO in Python?
+9. How does Python resolve the Diamond Problem?
+10. What is Streamlit?
+11. How do you run a Streamlit application?
+12. What are the advantages of Streamlit over traditional web frameworks?

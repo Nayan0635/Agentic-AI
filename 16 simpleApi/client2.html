@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        async function loadUsers() {
+            try {
+                let response = await fetch("http://localhost:3000/api/users");
+                let users = await response.json();
+
+                let tableContent = `
+                <div class="overflow-x-auto mt-6">
+                <table class="min-w-full border border-gray-300 shadow-lg rounded-lg overflow-hidden">
+                    <thead class="bg-blue-600 text-white">
+                        <tr>
+                            <th class="px-4 py-3 border">Name</th>
+                            <th class="px-4 py-3 border">Age</th>
+                            <th class="px-4 py-3 border">Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                for (let user of users) {
+                    tableContent += `
+                    <tr class="hover:bg-gray-100">
+                        <td class="border px-4 py-2">${user.name}</td>
+                        <td class="border px-4 py-2">${user.age}</td>
+                        <td class="border px-4 py-2">${user.gender}</td>
+                    </tr>
+                    `;
+                }
+
+                tableContent += `
+                    </tbody>
+                </table>
+                </div>
+                `;
+
+                document.getElementById("d1").innerHTML = tableContent;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+
+            let name = document.getElementById("nm").value;
+            let age = document.getElementById("ag").value;
+
+            let gender = "";
+            if (document.getElementById("r1").checked)
+                gender = document.getElementById("r1").value;
+            else
+                gender = document.getElementById("r2").value;
+
+            let dataToSubmit = {
+                name,
+                age,
+                gender
+            };
+
+            let response = await fetch("http://localhost:3000/api/users/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataToSubmit)
+            });
+
+            response = await response.json();
+
+            alert(response.message);
+
+            document.querySelector("form").reset();
+
+            loadUsers();
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="max-w-6xl mx-auto p-5">
+
+        <!-- Heading -->
+        <div class="bg-blue-600 text-white rounded-lg shadow-lg p-5 mb-6">
+            <h1 class="text-3xl font-bold text-center">
+                User Management System
+            </h1>
+        </div>
+
+        <!-- Form -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+
+            <h2 class="text-2xl font-semibold mb-5 text-gray-700">
+                Add New User
+            </h2>
+
+            <form onsubmit="submitForm(event)" class="space-y-5">
+
+                <div>
+                    <label class="block font-medium mb-2">
+                        Name
+                    </label>
+
+                    <input type="text" id="nm" required
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block font-medium mb-2">
+                        Age
+                    </label>
+
+                    <input type="number" id="ag" required
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block font-medium mb-2">
+                        Gender
+                    </label>
+
+                    <div class="flex gap-6">
+
+                        <label class="flex items-center gap-2">
+                            <input type="radio" id="r1" name="gender" value="Male" required>
+                            Male
+                        </label>
+
+                        <label class="flex items-center gap-2">
+                            <input type="radio" id="r2" name="gender" value="Female">
+                            Female
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+                        Submit
+                    </button>
+
+                    <button type="reset" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition">
+                        Reset
+                    </button>
+
+                    <button type="button" onclick="loadUsers()"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition">
+                        Load Users
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- User Table -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-8">
+
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">
+                Users List
+            </h2>
+
+            <div id="d1"></div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

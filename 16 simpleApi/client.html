@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        async function loadUsers() {
+            try {
+                let response = await fetch("http://localhost:3000/api/users");
+                let users = await response.json();
+                console.log(response);
+                let tableContent = `
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Age:</th> 
+                            <th>Gender:</th>
+                        </tr>
+                        <tbody>    
+                `;
+                for (let user of users) {
+                    tableContent += `
+                       <tr>
+                        <td>${user.name}</td>
+                        <td>${user.age}</td>
+                        <td>${user.gender}</td>
+                        </tr>
+                      `;
+                }
+
+                tableContent += `</tbody></table>`;
+                console.log(tableContent);
+                document.getElementById("d1").innerHTML = tableContent;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();//default submission turned off.
+            console.log("submitted");
+            var name = document.getElementById("nm").value;
+            var age = document.getElementById("ag").value;
+            var gender = "";
+            var radioButton1 = document.getElementById("r1");
+            var radioButton2 = document.getElementById("r2");
+
+            if (radioButton1.checked) gender = radioButton1.value;
+            else gender = radioButton2.value;
+            var dataToSubmit = {
+                name,
+                age,
+                gender
+            };
+            console.log(dataToSubmit);
+            let response = await fetch("http://localhost:3000/api/users/signup", {
+                method: 'POST',
+                body: JSON.stringify(dataToSubmit)
+            });
+            response = await response.json();
+            console.log(response);
+            alert(response.message);
+            await loadUsers();
+
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="loadUsers()">Load All Users:</button>
+    <div id="d1"><!--innerHTML--></div>
+    <form onsubmit="submitForm(event)">
+        <div>Name : <input type="text" id="nm" required></div>
+        <div>Age : <input type="number" required id="ag"></div>
+        <div>Gender :
+            <input type="radio" name="r1" id="r1" value="Male">Male
+            <input type="radio" name="r1" id="r2" value="Female">Female
+        </div>
+        <div>
+            <button>Submit</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+</body>
+
+</html>

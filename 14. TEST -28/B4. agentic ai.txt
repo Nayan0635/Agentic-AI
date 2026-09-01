@@ -1,0 +1,8 @@
+Agentic Ai:
+    agentic ai is an ai system that can observe, make decision, and take actions
+    autonomously to achieve a goal.
+
+    examples:
+        1. customer support agents: answer customer queries, resolve order issues(like rufus in amazon)
+        2. self driving cars: observe traffc obstacles, make decision and control cars
+        3. ai assitant: process mail, play songs, set remainders or fullfill any other user request

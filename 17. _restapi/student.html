@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        var studentId = 0;
+        async function deleteStudent(){
+              var r = confirm("Do You want to delete This Record ?");
+              if(r){
+                   let response = await fetch("http://localhost:3000/api/students/delete/"+studentId,{
+                    method:'DELETE'
+                   });
+                   response = await response.json();
+                   alert(response.message);     
+              } 
+        }
+        async function updateStudent(){
+             var data = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value
+                
+             } ;
+             console.log(data,studentId);
+             let response = await fetch("http://localhost:3000/api/students/update/"+studentId,{
+                method:'PUT',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(data)
+             });
+             response = await response.json();
+             console.log(response);
+             alert(response.message);
+        }
+        async function showStudent(id){
+            console.log(id);
+            let student = await fetch("http://localhost:3000/api/students/show/"+id);
+            student = await student.json();
+            console.log(student);
+            document.getElementById("name").value = student.name;
+            document.getElementById("email").value = student.email;
+            studentId = id;
+            document.getElementById("s2").style.display='block';
+            document.getElementById("s1").style.display='none';
+               
+        }
+           async function allStudents(){
+              
+
+               let students = await fetch("http://localhost:3000/api/students/all");
+               students = await students.json();
+               console.log(students);
+               var strContent=`
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name:</th>
+                            <th>Email:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+               `;
+               for(let student of students){
+                   strContent+=`
+                    <tr>
+                        <td><input type='radio' name='r1' onclick="showStudent(${student.id})"/></td>
+                        <td>${student.name}</td>
+                        <td>${student.email}</td>
+                    </tr>
+                   `;
+               }
+               strContent+=`</tbody></table>`;
+               document.getElementById("d1").innerHTML=strContent;
+               document.getElementById("s2").style.display='none';
+               document.getElementById("s1").style.display='block'; 
+            }
+         async function addStudent(event){
+              event.preventDefault();
+              var data = {
+                'name':document.getElementById("name").value,
+                'email':document.getElementById("email").value
+              };
+              console.log(data);
+              let response = await fetch("http://localhost:3000/api/students/add",{
+                method:'POST',
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify(data)
+              })
+              response = response.json();
+              console.log(response);
+         }    
+        addEventListener("load",allStudents());   
+    </script>
+</head>
+<body>
+     <div id="d1"></div> 
+     
+     <form onsubmit="addStudent(event)">
+        <div>Name : <input type="text" id="name" required></div>
+        <div>Email : <input type="email" name="email" id="email" required></div>
+        <div id="s1"><button>Submit</button></div>
+        <div id="s2">
+            <button type="button" onclick="updateStudent()">Update</button>
+            <button type="button" onclick="deleteStudent()">Delete</button> 
+        </div>
+     </form>
+</body>
+</html>
