@@ -50,6 +50,3 @@ while True:
             print("Agent Reply :",result)
     else:
         print("Sorry I can't help with that.")
-
-
-
