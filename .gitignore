@@ -2,6 +2,13 @@
 git command.txt
 private/
 
+# C/C++ output and binaries
+output/
+*.exe
+*.out
+*.o
+*.obj
+
 # Python cache
 __pycache__/
 *.py[cod]
@@ -10,4 +17,5 @@ __pycache__/
 *.png
 *.jpg
 *.jpeg
-*.pdf
+*.pdf
+
