@@ -1,3 +1,13 @@
 .env
 git command.txt
-practice/
+private/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Media and document files
+*.png
+*.jpg
+*.jpeg
+*.pdf
