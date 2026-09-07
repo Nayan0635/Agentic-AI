@@ -148,8 +148,6 @@ For Phase 5 (Agentic AI & LLM modules), create a `.env` file in the relevant sub
 # LLM Provider API Keys
 OPENAI_API_KEY=your_openai_api_key_here
 GEMINI_API_KEY=your_gemini_api_key_here
-NVIDIA_API_KEY=your_nvidia_api_key_here
-CEREBRAS_API_KEY=your_cerebras_api_key_here
 
 # Email Configuration (for email agent)
 SENDER_EMAIL=your_email@example.com
