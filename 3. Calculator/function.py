@@ -9,7 +9,7 @@ def mul(a:int, b:int) -> int:
 def div(a:float, b:float) -> float:
     return a / b
 def int_div(a:int, b:int) -> int:
-    return a // b
+    return a // b #what it does-> it removes decimal part
 
 
 def maxi(a:int, b:int) -> int:

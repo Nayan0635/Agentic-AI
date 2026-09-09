@@ -18,4 +18,11 @@ __pycache__/
 *.jpg
 *.jpeg
 *.pdf
+
+# Test folders
+14.*
+28.*
+14.*/
+28.*/
+
 
