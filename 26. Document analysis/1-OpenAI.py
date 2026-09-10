@@ -1,3 +1,4 @@
+# PDF ANALYSIS without Langchain
 from openai import OpenAI
 from pypdf import PdfReader
 from dotenv import load_dotenv
