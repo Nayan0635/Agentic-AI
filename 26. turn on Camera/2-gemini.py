@@ -39,12 +39,14 @@ while True:
             print("Agent: Cya!")
             exit(0)
         
-        prompt_text =  f"""- You are an Image Analysis AI
-                    - Tell number of persons
-                    - Person details
-                    - Object Identifications
-                    - Facial Expression
-                    - Answer user's Question: {user_input}"""
+        prompt =  f"""
+            - You are an Image Analysis AI
+            - Tell number of persons
+            - Person details
+            - Object Identifications
+            - Facial Expression
+            - Answer user's Question: {user_input}
+        """
         
         response = client.models.generate_content(
             model = 'gemini-2.5-flash',
@@ -53,7 +55,7 @@ while True:
                     data = image_bytes,
                     mime_type= "image/jpeg"
                 ),
-                prompt_text
+                prompt
             ]
         )
 print("Agent: ", response.text)
