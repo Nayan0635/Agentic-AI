@@ -45,7 +45,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 ## 🛠️ Tech Stack
 
 - **Languages**: Python 3.10+, C++17
-- **AI & Agent Frameworks**: LangChain, LangChain Community, OpenAI API, Google Gemini API, NVIDIA NeMo/NIM, Cerebras API
+- **AI & Agent Frameworks**: LangChain, LangChain Community, OpenAI API, Google Gemini API, NVIDIA NeMo/NIM
 - **Databases & ORM**: SQLite3
 - **Web & Frameworks**: Streamlit (GUI Applications), RESTful APIs (HTTP / JSON Routing)
 - **Computer Vision & Utilities**: OpenCV / Webcam utilities, PyPDF2 / pdfplumber, `python-dotenv`
@@ -78,7 +78,6 @@ This repository is designed as a progressive codebase covering the full lifecycl
 | **`11. SQLite3`** | Relational database setup, table creation, user schemas, and DB connection modules. |
 | **`12. GUI Applcation using Streamlit`** | Interactive Streamlit GUI dashboard integrated with a database backend. |
 | **`13. SQLite Day 3`** | Modular CRUD architecture separating UI, database queries, and business logic. |
-| **`14. TEST -28`** | Knowledge evaluations, revision notes, algorithm solutions, and python exercises. |
 
 ### Phase 4: Web APIs & REST Microservices
 | Directory | Focus & Contents |
@@ -135,7 +134,7 @@ Ensure you have the following installed on your environment:
 
 3. **Install Core Dependencies**:
    ```bash
-   pip install langchain langchain-community openai google-generativeai streamlit opencv-python python-dotenv
+   pip install langchain langchain-community openai google-generativeai streamlit opencv-python python-dotenv pypdf youtube-transcript-api python-docx
    ```
 
 ---

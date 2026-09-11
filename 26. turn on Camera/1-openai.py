@@ -26,34 +26,36 @@ while True:
           filename = 'capture-'+str(randint(1000,9999))+".jpg"
           cv2.imwrite(filename,frame)
           print("Image Captured successfully")
+          
           camera.release()#Closing camera
           cv2.destroyAllWindows()#Closing the webCam window
+          
           with open(filename,"rb") as img:#We need to convert Image File to Binaries
                base64Image = base64.b64encode(img.read()).decode("utf-8")
+          
           user_input = input("Ask Something related to Image:")
           if user_input.lower()=='exit':
                print("Agent :Bye Bye")
                exit(0)
+          
           responses = client.chat.completions.create(
                model="gpt-4.1-mini",
                messages=[
                     {
-                         "role":"user",
-                         "content":[
-                              {
-                                   "type":"text",
-                                   "text":f'''
-                                   -You are an Image Ananlysis AI
-                                   -Who can tell no of Persons
-                                   -Person details 
-                                   -Object Identifications
-                                   -Facial Expression
-                                   -Answer user's Question:{user_input}'''
-                              },
-                              {
-                                   "type":"image_url",
-                                   "image_url":{"url":f"data:image/jpeg;base64,{base64Image}"}
-                              }
+                         "role": "system",
+                         "content": """
+                              You are an Image Analysis AI
+                              Who can tell no of Persons
+                              Person details
+                              Object Identifications
+                              Facial Expression
+                         """
+                    },
+                    {
+                         "role": "user",
+                         "content": [
+                              {"type": "text", "text": f'''Question: {user_input}'''},
+                              {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64Image}"}}
                          ]
                     }
                ]

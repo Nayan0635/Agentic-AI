@@ -52,19 +52,16 @@ while True:
                     {
                         "type": "text",
                         "text": f"""
-You are an Image Analysis AI.
+                        You are an Image Analysis AI.
 
-You can:
-- Tell the number of persons
-- Describe persons
-- Identify objects
-- Analyze facial expressions
-- Answer questions about the image
-
-Answer the user's question:
-
-{user_input}
-"""
+                        You can:
+                        Tell the number of persons
+                        Describe persons
+                        Identify objects
+                        Analyze facial expressions
+                        Answer questions about the image
+                        Answer the user's question: {user_input}
+                        """
                     },
                     {
                         "type": "image_url",
@@ -77,5 +74,4 @@ Answer the user's question:
         ])
 
         print("Agent Reply:", response.content)
-
         break
