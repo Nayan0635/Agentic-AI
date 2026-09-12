@@ -33,16 +33,13 @@ if st.button("Ask"):
                     You are a PDF Summarizer AI.
                     You can only answer from the provided PDF context.
                     If the answer is not available in the PDF,
-                    reply: I don't know."""
-                },
+                    reply: I don't know."""},
                 {
                     "role": "user",
                     "content": f"""
                     PDF Content: {pdf_content}
-
                     User Question: {user_input}
-                    Answer only from the given PDF content."""
-                }
+                    Answer only from the given PDF content."""}
             ]
         )
         message = response.choices[0].message.content

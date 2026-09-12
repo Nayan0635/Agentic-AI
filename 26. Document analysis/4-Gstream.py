@@ -1,5 +1,4 @@
 from google import genai
-# from google.genai import types #why??
 import streamlit as st
 from pypdf import PdfReader
 from dotenv import load_dotenv
