@@ -180,18 +180,13 @@ st.html("""
         background: rgba(16, 185, 129, 0.08);
         border: 1px solid rgba(16, 185, 129, 0.25);
     }
-
     .response-title {
         color: #6ee7b7;
         font-size: 20px;
         font-weight: 700;
     }
-
 </style>
 """)
-
-
-# CONNECT TO LLM
 
 load_dotenv()
 
@@ -203,9 +198,7 @@ llm = ChatNVIDIA(
     max_completion_tokens=8192
 )
 
-
 # BIND TOOLS
-
 llm = llm.bind_tools([
     addNewUser,
     getUser,
@@ -223,12 +216,9 @@ tools_by_name = {
     "updateUser": updateUser
 }
 
-
 # HERO
-
 st.html("""
 <div class="hero">
-
     <div class="hero-icon">🤖</div>
 
     <div class="hero-title">
@@ -242,20 +232,15 @@ st.html("""
 
 </div>
 """)
-
-
 # QUESTION
-
 st.html("""
 <div class="section-title">
     💬 Ask your database
 </div>
 """)
-
 textArea = st.text_area(
     "Question",
     placeholder="""Try something like:
-
 • Show all users
 • Find user with ID 5
 • Add a new user
@@ -264,31 +249,21 @@ textArea = st.text_area(
     height=160,
     label_visibility="collapsed"
 )
-
-
 sendBtn = st.button("🚀  Run Agent")
 
 
 # AGENT
-
 if sendBtn:
-
     if not textArea.strip():
-
         st.warning("Please enter a question first.")
-
     else:
-
         with st.spinner("🧠 Agent is thinking..."):
-
             responses = llm.invoke(
                 f"""
                 Prompt : {textArea}
                 """
             )
-
         if responses.tool_calls:
-
             tool_name = responses.tool_calls[0]["name"]
             tool_args = responses.tool_calls[0]["args"]
 
@@ -298,34 +273,23 @@ if sendBtn:
                 <div class="tool-name">
                     🔧 Using tool: {tool_name}
                 </div>
-
                 <div class="tool-description">
                     The AI selected this database operation.
                 </div>
-
             </div>
             """)
-
             tool = tools_by_name.get(tool_name)
-
             if tool:
-
                 result = tool.invoke(tool_args)
-
                 st.html("""
                 <div class="response-card">
-
                     <div class="response-title">
                         ✨ Agent Response
                     </div>
-
                 </div>
                 """)
-
                 st.write(result)
-
         else:
-
             st.warning(
                 "🤔 Sorry, I couldn't find a suitable database operation."
             )
