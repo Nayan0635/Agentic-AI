@@ -134,7 +134,7 @@ Ensure you have the following installed on your environment:
 
 3. **Install Core Dependencies**:
    ```bash
-   pip install langchain langchain-community openai google-generativeai streamlit opencv-python python-dotenv pypdf youtube-transcript-api python-docx
+   pip install langchain langchain-community openai google-generativeai streamlit opencv-python python-dotenv pypdf youtube-transcript-api python-docx requests
    ```
 
 ---

@@ -75,3 +75,80 @@ while True:
 
         print("Agent Reply:", response.content)
         break
+    '''
+import base64
+import os
+from random import randint
+import cv2
+from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+load_dotenv()
+
+# Connect to Gemini
+client = ChatGoogleGenerativeAI(
+    api_key=os.getenv("gemini_key"), model="gemini-2.5-flash"
+)
+print("Connected to Gemini")
+
+# System instruction context
+SYSTEM_INSTRUCTION = """
+You are an Image Analysis AI.
+You can:
+- Tell the number of persons
+- Describe persons
+- Identify objects
+- Analyze facial expressions
+"""
+
+camera = cv2.VideoCapture(0)
+print("Press Enter or Space to Capture The Image")
+
+while True:
+    success, frame = camera.read()
+    if not success:
+        break
+
+    cv2.imshow("WebCam", frame)
+    key = cv2.waitKey(1)
+
+    # Capture on Enter (13) or Space (32)
+    if key in (13, 32):
+        filename = f"capture-{randint(1000, 9999)}.jpg"
+        cv2.imwrite(filename, frame)
+        print("Image Captured successfully")
+
+        camera.release()
+        cv2.destroyAllWindows()
+
+        # Convert image to Base64
+        with open(filename, "rb") as img:
+            base64_image = base64.b64encode(img.read()).decode("utf-8")
+
+        user_input = input("Ask Something related to Image: ")
+        if user_input.lower() == "exit":
+            print("Agent: Bye Bye")
+            break
+
+        # Pass multimodal content cleanly via LangChain HumanMessage
+        message = HumanMessage(
+            content=[
+                {
+                    "type": "text",
+                    "text": f"{SYSTEM_INSTRUCTION}\nUser Question: {user_input}",
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{base64_image}"
+                    },
+                },
+            ]
+        )
+
+        response = client.invoke([message])
+        print("Agent Reply:", response.content)
+        break
+    '''
+    
