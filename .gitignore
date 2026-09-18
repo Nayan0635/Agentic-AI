@@ -25,5 +25,4 @@ __pycache__/
 14.*/
 28.*/
 
-
-private/ 
+*.txt 
