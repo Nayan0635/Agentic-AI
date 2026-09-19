@@ -1,6 +1,6 @@
 .env
-git command.txt
 private/
+Claude/ 
 
 # C/C++ output and binaries
 output/
