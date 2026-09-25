@@ -1,4 +1,5 @@
 from google import genai
+from google.genai import types
 import streamlit as st
 from dotenv import load_dotenv
 import os
@@ -24,13 +25,24 @@ documents = [
     "Laravel is a powerful framework of PHP"
 ]
 
+# Define the prefix format for document embedding (Gemini Embedding 2 specific)
+def prepare_document(content):
+    # For retrieval tasks, title can be left empty
+    return f"title: none | text: {content}"
+
 document_vectors = []
 
 # Convert documents into vector embeddings
 for doc in documents:
+    # Add the task prefix
+    formatted_content = prepare_document(doc)
+
     response = client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=doc
+        model="gemini-embedding-001",  # Updated model name
+        contents=formatted_content,
+        config=types.EmbedContentConfig(
+            output_dimensionality=768  # Recommended 768 dims, saves space with minimal quality loss
+        )
     )
 
     document_vectors.append(
@@ -45,9 +57,19 @@ print("Vector Database created successfully")
 
 # Retrieve function
 def retrieve(query: str):
+    # Define the prefix format for query embedding (Gemini Embedding 2 specific)
+    def prepare_query(q):
+        # For question-answering retrieval tasks
+        return f"task: question answering | query: {q}"
+
+    formatted_query = prepare_query(query)
+
     query_response = client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=query
+        model="gemini-embedding-2",
+        contents=formatted_query,
+        config=types.EmbedContentConfig(
+            output_dimensionality=768  # Must match the document embedding dimensions
+        )
     )
 
     query_vector = query_response.embeddings[0].values
@@ -81,7 +103,7 @@ if user_input:
     context = retrieve(user_input)
 
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.1-flash-lite",
         contents=f"""
         - Context: {context}
         - Question: {user_input}
