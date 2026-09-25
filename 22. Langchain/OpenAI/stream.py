@@ -18,6 +18,7 @@ print("OpenAI Connected via LangChain")
 st.title("LangChain Customized AI ChatBot : Online Python Teacher:")
 textAreaObj = st.text_area("Enter Your Prompt:")
 sendBtn     = st.button("Send !")
+
 if sendBtn:
     st.write("Button clicked")
     prompt = PromptTemplate.from_template(f'''
@@ -28,9 +29,5 @@ if sendBtn:
     chain = prompt | llm
     responses = chain.invoke({"question":prompt})
     st.write("Agent :",responses.text)
-#     prompt = PromptTemplate.from_template(f'''
-#     -You are an AI Python teacher who can only answer related to Python
-#     -Apart from Python , Django ,flash , fastAPI please reply "I can only teach You python ".
-#     -Prompt :{textAreaObj}
-#      ''')
+
 

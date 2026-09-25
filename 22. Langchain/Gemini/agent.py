@@ -11,7 +11,7 @@ from prompts.food_order import prompt
 load_dotenv()
 
 llm = ChatGoogleGenerativeAI(
-    api_key = os.getenv("gemini_key"),
+    api_key = os.getenv("GEMINI_API_KEY"),
     model = "gemini-3.1-flash-lite",
     temperature = 1
 )

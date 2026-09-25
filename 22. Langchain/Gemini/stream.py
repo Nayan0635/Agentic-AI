@@ -9,9 +9,9 @@ load_dotenv()
 
 #Connect to Google Gemini LLM
 llm = ChatGoogleGenerativeAI(
-    api_key=os.getenv("GOOGLE_API_KEY"),
-    model="gemini-2-flash",
-    temperature=1
+    api_key=os.getenv("GEMINI_API_KEY"),
+    model="gemini-3.1-flash-lite",
+    # temperature=1
 )
 print("Gemini Connected")
 

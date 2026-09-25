@@ -5,7 +5,7 @@ from prompts.food_order import prompt
 load_dotenv()
 
 llm = ChatOpenAI(
-    api_key = os.getenv("openai_key"),
+    api_key = os.getenv("OPENAI_API_KEY"),
     model = "gpt-4.1-mini",
     temperature = 1
 )

@@ -55,6 +55,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 ## 📂 Repository Structure & Roadmap
 
 ### Phase 1: Core Programming Fundamentals
+
 | Directory | Focus & Contents |
 | :--- | :--- |
 | **`1. C++ warm up`** | C++ fundamentals: Series, Fibonacci, PalPrime, Magic numbers, and array logic. |
@@ -66,6 +67,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 | **`7. Dictionary Queries`** | Advanced dictionary querying, lookup problems, and data manipulation. |
 
 ### Phase 2: Object-Oriented Programming (OOP)
+
 | Directory | Focus & Contents |
 | :--- | :--- |
 | **`8. OOPs`** | Class definitions, instance variables, methods, and encapsulated logic. |
@@ -73,6 +75,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 | **`10. OOPs Day 3`** | Method Resolution Order (MRO), Duck Typing, and Lambda functions. |
 
 ### Phase 3: Database & UI Applications
+
 | Directory | Focus & Contents |
 | :--- | :--- |
 | **`11. SQLite3`** | Relational database setup, table creation, user schemas, and DB connection modules. |
@@ -80,6 +83,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 | **`13. SQLite Day 3`** | Modular CRUD architecture separating UI, database queries, and business logic. |
 
 ### Phase 4: Web APIs & REST Microservices
+
 | Directory | Focus & Contents |
 | :--- | :--- |
 | **`15. Learn API`** | Architectural concepts (3-Tier Architecture), HTTP routes, and client HTML pages. |
@@ -87,6 +91,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 | **`17. _restapi` / `17. restAPI`** | Full RESTful API supporting CRUD operations on student database resources. |
 
 ### Phase 5: Agentic AI & LLM Systems
+
 | Directory | Focus & Contents |
 | :--- | :--- |
 | **`18. creating chatBot`** | Multi-provider Conversational Assistants using OpenAI, Gemini, and NVIDIA APIs. |
@@ -108,6 +113,7 @@ This repository is designed as a progressive codebase covering the full lifecycl
 ### Prerequisites
 
 Ensure you have the following installed on your environment:
+
 - **Python**: Version `3.10` or higher
 - **C++ Compiler**: `g++` / `clang` / MSVC (for C++ warm-up modules)
 - **Git**: For version control
@@ -115,6 +121,7 @@ Ensure you have the following installed on your environment:
 ### Installation
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/your-username/Agentic-AI.git
    cd Agentic-AI
@@ -122,17 +129,21 @@ Ensure you have the following installed on your environment:
 
 2. **Create and Activate a Virtual Environment**:
    - **On Windows**:
+
      ```powershell
      python -m venv venv
      .\venv\Scripts\activate
      ```
+
    - **On macOS/Linux**:
+
      ```bash
      python3 -m venv venv
      source venv/bin/activate
      ```
 
 3. **Install Core Dependencies**:
+
    ```bash
    pip install langchain langchain-community openai google-generativeai streamlit opencv-python python-dotenv pypdf youtube-transcript-api python-docx requests
    ```
@@ -160,12 +171,15 @@ SENDER_PASSWORD=your_app_password_here
 ## 🌟 Featured Agents & Projects
 
 ### 🧠 1. NL-to-SQL Database Agent (`20. database agent` / `24. Langchain -DB OPs`)
+
 Translates natural language questions into executable SQL queries, runs them against SQLite databases, and formats the response for end users.
 
 ### ✉️ 2. Autonomous Email Agent (`25. building Email Agent` & `send mail`)
+
 Leverages custom tool execution to compose, format, and send emails via SMTP using multi-provider models (OpenAI, Gemini, NVIDIA).
 
 ### 📷 3. Vision Web Camera Agent (`26. Web Camera Agent`)
+
 Captures snapshots from a local webcam feed and passes images to multimodal models for real-time visual reasoning and scene description.
 
 ---
