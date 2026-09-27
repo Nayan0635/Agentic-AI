@@ -18,6 +18,9 @@ __pycache__/
 *.jpg
 *.jpeg
 *.pdf
+*.csv
+*.xlsx
+*.docx
 
 # Test folders
 14.*
