@@ -1,3 +1,11 @@
+# Choose FAISS if you have the following needs
+
+Extreme speed requirements: Need maximum throughput for vector retrieval (e.g., millions to tens of millions of vectors, millisecond-level latency)
+
+Deep R&D or custom development: Want full control over the underlying indexing algorithms (IVF, HNSW, PQ, etc.), not afraid to write code to manage storage and ID mappings yourself
+
+Just need an "engine": Your application already has a database (like PostgreSQL, SQLite), and you only want to embed a high-performance similarity search module
+
 # What I was doing wrong & how to fix it
 
 ---

@@ -1,5 +1,5 @@
 from langchain_openai import ChatOpenAI
-from langchain_community.vectorstores.faiss import FAISS
+from langchain_community.vectorstores.faiss import FAISS # no longer maintained change it
 from dotenv import load_dotenv
 import os
 from embeddings import embeddings
