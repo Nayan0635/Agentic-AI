@@ -27,7 +27,7 @@ __pycache__/
 14.*/
 28.*
 28.*/
-33. tutorial/
-34. tutorial/
+33. _tutorial/
+# 34. _tutorial/
 
 *.txt 
