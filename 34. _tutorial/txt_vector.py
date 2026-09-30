@@ -1,43 +1,37 @@
-#loading the required libraries
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-#importing chromadb vector database
 import chromadb
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 load_dotenv()
-#Connecting to openAI
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
-print("OpenAI connected")
-
-#Create Chromadb vector database
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-#Create a collection where we need to store the vector data.
-collection = chroma_client.get_or_create_collection(name="company_documents")
+collection = chroma_client.get_or_create_collection(name="txt_doc")
 
-text=""
-#fetching from .txt file 
-with open("./documents/data.txt","r+") as file:
+with open("./documents/data.txt", "r", encoding="utf-8") as file:
     text = file.read()
-    file.close()
-print(text)
 
-#Create the embeddings 
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50
+)
+chunks = text_splitter.split_text(text)
+
 responses = client.embeddings.create(
     model="text-embedding-3-small",
-    input=text
+    input=chunks
 )
-embedding = responses.data[0].embedding
-print(embedding)
-#We need to store these vectors inside the collection of the chromadb.
+embeddings = [item.embedding for item in responses.data]
+
 collection.add(
-    ids=['doc1'],
-    embeddings=[embedding],
-    documents=[text]
+    ids=[f"doc_{i}" for i in range(len(chunks))],
+    embeddings=embeddings,
+    documents=chunks,
+    metadatas=[{"source": "data.txt", "chunk_index": i} for i in range(len(chunks))]
 )
-print("ChromaDB database created successfully")
+
+print("ChromaDB created successfully")
 
     

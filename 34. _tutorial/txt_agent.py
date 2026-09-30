@@ -4,44 +4,56 @@ import os
 import chromadb
 
 load_dotenv()
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
-#Connect to ChromaDB
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_collection(name="company_documents")
+collection = chroma_client.get_or_create_collection(name="txt_doc")
 print("Collection loaded")
-#ChatLoop
+
 while True:
-    user_input = input("Ask About Ejobindia only ?")
-    if user_input.lower()=='exit':
+    user_input = input("Ask about the document: ")
+    if user_input.lower() == "exit":
         print("Agent : Bye Bye")
+        break
+    if not user_input.strip():
+        continue
+
     responses = client.embeddings.create(
         model="text-embedding-3-small",
         input=user_input
     )
     query_embedding = responses.data[0].embedding
-    #Searching from ChromaDB
-    result=collection.query(
+
+    result = collection.query(
         query_embeddings=[query_embedding],
-        n_results=2
+        n_results=3,
+        include=["documents", "metadatas"]
     )
-    #Get the relavant documents
-    context = "\n".join(result['documents'][0])
-    print("Rag Context :",context)
-    #Now sending this context to llm
-    responses= client.chat.completions.create(
+
+    docs = result.get("documents", [[]])[0]
+    context = "\n".join(docs) if docs else "No relevant context found."
+
+    responses = client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=[
             {
-            "role":"user",
-            "content":f'''
-                -Context :{context}
-                -Question:{user_input}
-                -Please use above context to answer , otherwise say I dont know
-            '''}
+                "role": "system",
+                "content": """
+                    You are an assistant that answers ONLY from the provided context.
+                    If the answer is not in the context, reply exactly: 'I don't know'.
+                """
+            },
+            {
+                "role": "user",
+                "content": f"""
+                    Context: {context}
+                    Question: {user_input}
+                    Please use the context to answer the question. Otherwise, say I don't know.
+                """
+            }
         ]
     )
+
     msg = responses.choices[0].message.content
-    print("Agent Final Reply :",msg)
-    
+    print("Agent Final Reply :", msg)
+
