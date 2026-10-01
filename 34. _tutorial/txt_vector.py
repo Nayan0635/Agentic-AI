@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 #importing chromadb vector database
 import chromadb
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 load_dotenv()
 #Connecting to openAI
@@ -18,25 +19,31 @@ chroma_client = chromadb.PersistentClient(path="./chroma_db")
 #Create a collection where we need to store the vector data.
 collection = chroma_client.get_or_create_collection(name="company_documents")
 
-text=""
-#fetching from .txt file 
-with open("./documents/data.txt","r+") as file:
+source = "data.txt"
+with open(f"./documents/{source}", "r", encoding="utf-8") as file:
     text = file.read()
-    file.close()
-print(text)
 
-#Create the embeddings 
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50
+)
+chunks = text_splitter.split_text(text)
+if not chunks:
+    raise ValueError("The TXT file is empty; no chunks were created.")
+
 responses = client.embeddings.create(
     model="text-embedding-3-small",
-    input=text
+    input=chunks
 )
-embedding = responses.data[0].embedding
-print(embedding)
-#We need to store these vectors inside the collection of the chromadb.
-collection.add(
-    ids=['doc1'],
-    embeddings=[embedding],
-    documents=[text]
+embeddings = [item.embedding for item in responses.data]
+
+collection.delete(where={"source": source})
+collection.delete(ids=["doc1"])
+collection.upsert(
+    ids=[f"doc_{i}" for i in range(len(chunks))],
+    embeddings=embeddings,
+    documents=chunks,
+    metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
 )
 print("ChromaDB database created successfully")
 

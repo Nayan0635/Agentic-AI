@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import chromadb
 from docx import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv()
 # Gemini
 client = genai.Client(
@@ -17,6 +18,13 @@ text = "\n".join(
     if paragraph.text.strip()
 )
 print("DOCX loaded")
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50
+)
+chunks = text_splitter.split_text(text)
+if not chunks:
+    raise ValueError("The DOCX file contains no text; no chunks were created.")
 # ChromaDB
 chroma_client = chromadb.PersistentClient(
     path="./chroma_db"
@@ -27,13 +35,16 @@ collection = chroma_client.get_or_create_collection(
 # Create Embedding
 response = client.models.embed_content(
     model="gemini-embedding-001",
-    contents=text
+    contents=chunks
 )
-embedding = response.embeddings[0].values
-# Store Vector
-collection.add(
-    ids=["docx1"],
-    embeddings=[embedding],
-    documents=[text]
+embeddings = [item.values for item in response.embeddings]
+source = "document.docx"
+collection.delete(where={"source": source})
+collection.delete(ids=["docx1"])
+collection.upsert(
+    ids=[f"docx_{i}" for i in range(len(chunks))],
+    embeddings=embeddings,
+    documents=chunks,
+    metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
 )
-print("DOCX vector stored successfully")
+print("DOCX chunks stored successfully")

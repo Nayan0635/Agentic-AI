@@ -19,9 +19,11 @@ print("Collection loaded")
 # Chat Loop
 while True:
     user_input = input("Ask about the DOCX: ")
-    if user_input.lower() == "exit":
+    if user_input.strip().lower() == "exit":
         print("Agent: Bye Bye")
         break
+    if not user_input.strip():
+        continue
     # Create query embedding
     response = client.models.embed_content(
         model="gemini-embedding-001",
@@ -31,12 +33,11 @@ while True:
     # Search ChromaDB
     result = collection.query(
         query_embeddings=[query_embedding],
-        n_results=2
+        n_results=4
     )
     # Get relevant documents
-    context = "\n".join(
-        result["documents"][0]
-    )
+    documents = result.get("documents") or [[]]
+    context = "\n".join(documents[0]) if documents and documents[0] else "No relevant context found."
     # Generate answer
     response = client.models.generate_content(
         model="gemini-3.1-flash-lite",

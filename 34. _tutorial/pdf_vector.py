@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import chromadb
 from pypdf import PdfReader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv()
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
@@ -14,6 +15,13 @@ text = ""
 for page in reader.pages:
     text += page.extract_text() + "\n"
 print("PDF loaded")
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50
+)
+chunks = text_splitter.split_text(text)
+if not chunks:
+    raise ValueError("The PDF contains no extractable text; no chunks were created.")
 chroma_client = chromadb.PersistentClient(
     path="./chroma_db"
 )
@@ -22,12 +30,16 @@ collection = chroma_client.get_or_create_collection(
 )
 response = client.models.embed_content(
     model="gemini-embedding-001",
-    contents=text
+    contents=chunks
 )
-embedding = response.embeddings[0].values
-collection.add(
-    ids=["pdf1"],
-    embeddings=[embedding],
-    documents=[text]
+embeddings = [item.values for item in response.embeddings]
+source = "data.pdf"
+collection.delete(where={"source": source})
+collection.delete(ids=["pdf1"])
+collection.upsert(
+    ids=[f"pdf_{i}" for i in range(len(chunks))],
+    embeddings=embeddings,
+    documents=chunks,
+    metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
 )
-print("PDF vector stored")
+print("PDF chunks stored")

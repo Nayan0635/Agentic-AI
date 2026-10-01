@@ -3,6 +3,7 @@ from google import genai
 from dotenv import load_dotenv
 import os
 import chromadb
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv()
 # Gemini
 client = genai.Client(
@@ -14,6 +15,13 @@ excel_file = "./documents/retail_sales.xlsx"
 df = pd.read_excel(excel_file)
 excel_data = df.to_string(index=False)
 print("Excel loaded")
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50
+)
+chunks = text_splitter.split_text(excel_data)
+if not chunks:
+    raise ValueError("The Excel file contains no data; no chunks were created.")
 # ChromaDB
 chroma_client = chromadb.PersistentClient(
     path="./chroma_db"
@@ -24,13 +32,16 @@ collection = chroma_client.get_or_create_collection(
 # Create Embedding
 response = client.models.embed_content(
     model="gemini-embedding-001",
-    contents=excel_data
+    contents=chunks
 )
-embedding = response.embeddings[0].values
-# Store Vector
-collection.add(
-    ids=["excel1"],
-    embeddings=[embedding],
-    documents=[excel_data]
+embeddings = [item.values for item in response.embeddings]
+source = "retail_sales.xlsx"
+collection.delete(where={"source": source})
+collection.delete(ids=["excel1"])
+collection.upsert(
+    ids=[f"excel_{i}" for i in range(len(chunks))],
+    embeddings=embeddings,
+    documents=chunks,
+    metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
 )
-print("Excel vector stored successfully")
+print("Excel chunks stored successfully")
