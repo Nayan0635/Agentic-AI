@@ -9,12 +9,9 @@ client = genai.Client(
 )
 print("Gemini connected")
 # ChromaDB
-chroma_client = chromadb.PersistentClient(
-    path="./chroma_db"
-)
-collection = chroma_client.get_collection(
-    name="docx_documents"
-)
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_collection(name="docx_documents")
+
 print("Collection loaded")
 # Chat Loop
 while True:
@@ -22,8 +19,8 @@ while True:
     if user_input.strip().lower() == "exit":
         print("Agent: Bye Bye")
         break
-    if not user_input.strip():
-        continue
+    # if not user_input.strip():
+    #     continue
     # Create query embedding
     response = client.models.embed_content(
         model="gemini-embedding-001",
@@ -42,13 +39,10 @@ while True:
     response = client.models.generate_content(
         model="gemini-3.1-flash-lite",
         contents=f"""
-Context:
-{context}
-Question:
-{user_input}
-Please use the above context to answer.
-If the answer is not present in the context, say "I don't know".
-"""
-    )
+            Context: {context}
+            Question: {user_input}
+            -Please use the above context to answer.
+            -If the answer is not present in the context, say "I don't know".
+        """)
     print("\nAgent Final Reply:")
     print(response.text)

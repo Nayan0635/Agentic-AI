@@ -7,7 +7,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+chroma_client = chromadb.PersistentClient(path="./ChromaDB")
 collection = chroma_client.get_or_create_collection(name="txt_doc")
 
 #fetching from .txt file
@@ -35,4 +35,4 @@ collection.add(
     # optional but recommended: keep source metadata for traceability
     metadatas=[{"source": "data.txt", "chunk_index": i} for i in range(len(chunks))]
 )
-print("ChromaDB created successfully")
+print("txt stored successfully")

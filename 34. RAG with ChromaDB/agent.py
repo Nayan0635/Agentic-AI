@@ -7,7 +7,6 @@ load_dotenv()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
-
 #Connect to ChromaDB
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_collection(name="txt_doc")
@@ -40,19 +39,18 @@ while True:
     responses= client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=[
-        {
-            "role":"system",
-            "content":'''
-                You are an assistant that answers ONLY from the provided context. 
-                If the answer is not in the context, reply exactly: 'I don't know'.
+            {
+                "role":"system",
+                "content":'''
+                    You are an assistant that answers ONLY from the provided context. 
+                    If the answer is not in the context, reply exactly: 'I don't know'.
             '''},
-        {
-            "role":"user",
-            "content":f'''
-            -Context :{context}
-            -Question:{user_input}
-            -Please use above context to answer , otherwise say I dont know
-        '''}
+            {
+                "role":"user",
+                "content":f'''
+                -Context :{context}
+                -Question:{user_input}
+            '''}
         ]
     )
     msg = responses.choices[0].message.content

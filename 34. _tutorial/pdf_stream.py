@@ -8,12 +8,9 @@ load_dotenv()
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
-chroma_client = chromadb.PersistentClient(
-    path="./chroma_db"
-)
-collection = chroma_client.get_collection(
-    name="pdf_documents"
-)
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_collection(name="pdf_documents")
+
 st.title("PDF RAG Gemini")
 user_input = st.text_input("Ask something about the PDF")
 if st.button("Submit"):
@@ -30,9 +27,7 @@ if st.button("Submit"):
             n_results=2
         )
         # Get relevant documents
-        context = "\n".join(
-            result["documents"][0]
-        )
+        context = "\n".join(result["documents"][0])
         # Generate answer
         response = client.models.generate_content(
             model="gemini-3.1-flash-lite",

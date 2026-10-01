@@ -1,5 +1,4 @@
-# python -m streamlit run txt_stream.py
-
+'''python -m streamlit run txt_stream.py'''
 import streamlit as st
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -10,12 +9,10 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_collection(
-    name="company_documents"
-)
+collection = chroma_client.get_collection(name="company_documents")
 st.title("TXT RAG OpenAI")
 user_input = st.text_input("Ask about EjobIndia only")
-if st.button("Submit"):
+if st.button("Ask"):
     if user_input:
         # Create query embedding
         responses = client.embeddings.create(
@@ -29,9 +26,7 @@ if st.button("Submit"):
             n_results=2
         )
         # Get relevant documents
-        context = "\n".join(
-            result["documents"][0]
-        )
+        context = "\n".join(result["documents"][0])
         # Send context to LLM
         responses = client.chat.completions.create(
             model="gpt-4.1-mini",

@@ -1,50 +1,55 @@
-#loading the required libraries
+'''marking errors'''
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-#importing chromadb vector database
-import chromadb
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+import chromadb #importing chromadb vector database
 
 load_dotenv()
-#Connecting to openAI
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
-print("OpenAI connected")
+# print("OpenAI connected")
 
 #Create Chromadb vector database
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 #Create a collection where we need to store the vector data.
-collection = chroma_client.get_or_create_collection(name="company_documents")
+collection = chroma_client.get_collection(name="company_documents")
 
-source = "data.txt"
-with open(f"./documents/{source}", "r", encoding="utf-8") as file:
+text=""
+#fetching from .txt file 
+'''remove "r+" (write mode not needed, can corrupt file). Use "r" only.'''
+with open("./documents/ejob.txt","r+") as file: 
     text = file.read()
+    file.close()
+    '''remove file.close() — "with" already handles closing automatically.'''
+# print(text)
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500,
-    chunk_overlap=50
-)
-chunks = text_splitter.split_text(text)
-if not chunks:
-    raise ValueError("The TXT file is empty; no chunks were created.")
-
+#Create the embeddings 
 responses = client.embeddings.create(
     model="text-embedding-3-small",
-    input=chunks
+    input=text
 )
-embeddings = [item.embedding for item in responses.data]
-
-collection.delete(where={"source": source})
-collection.delete(ids=["doc1"])
-collection.upsert(
-    ids=[f"doc_{i}" for i in range(len(chunks))],
-    embeddings=embeddings,
-    documents=chunks,
-    metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
-)
-print("ChromaDB database created successfully")
-
+embedding = responses.data[0].embedding
+# print(embedding)
+#We need to store these vectors inside the collection of the chromadb.
+collection.add(
+    ids=['doc1'],
+    embeddings=[embedding],
+    documents=[text]
     
+)
+'''the whole file content was read into
+a single variable `text` and then passed directly into
+`client.embeddings.create(input=text)`.
+
+Result:
+- Only ONE embedding was generated for the entire document.
+- The whole document became a single vector.
+- This is bad RAG practice because retrieval can only return the
+entire document as one match — no granularity, no relevance.
+- If the file grows large, it can even exceed the embedding model's
+token limit (text-embedding-3-small = 8191 tokens).
+'''
+print("ChromaDB created successfully")
+'''fix for other files too'''

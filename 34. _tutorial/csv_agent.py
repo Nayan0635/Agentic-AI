@@ -7,12 +7,9 @@ client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 print("Gemini connected")
-chroma_client = chromadb.PersistentClient(
-    path="./chroma_db"
-)
-collection = chroma_client.get_collection(
-    name="csv_documents"
-)
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_collection(name="csv_documents")
+
 print("Collection loaded")
 while True:
     user_input = input("Ask about the space missions: ")

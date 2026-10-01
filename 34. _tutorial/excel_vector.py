@@ -23,12 +23,8 @@ chunks = text_splitter.split_text(excel_data)
 if not chunks:
     raise ValueError("The Excel file contains no data; no chunks were created.")
 # ChromaDB
-chroma_client = chromadb.PersistentClient(
-    path="./chroma_db"
-)
-collection = chroma_client.get_or_create_collection(
-    name="excel_documents"
-)
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_collection(name="excel_documents")
 # Create Embedding
 response = client.models.embed_content(
     model="gemini-embedding-001",
@@ -42,6 +38,6 @@ collection.upsert(
     ids=[f"excel_{i}" for i in range(len(chunks))],
     embeddings=embeddings,
     documents=chunks,
-    metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
+    # metadatas=[{"source": source, "chunk_index": i} for i in range(len(chunks))]
 )
 print("Excel chunks stored successfully")

@@ -38,10 +38,10 @@ while True:
     response = client.models.generate_content(
         model="gemini-3.1-flash-lite",
         contents=f"""
-        Context: {context}
-        Question: {user_input}
-        Answer the question using only the Excel data above.
-        If the answer is not available, say "I don't know".
-    """)
+            Context: {context}
+            Question: {user_input}
+            -Please use the above context to answer.
+            -If the answer is not present in the context, say "I don't know".
+        """)
     print("\nAgent Final Reply:")
     print(response.text)

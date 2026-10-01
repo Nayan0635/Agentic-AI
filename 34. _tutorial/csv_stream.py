@@ -9,12 +9,9 @@ load_dotenv()
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
-chroma_client = chromadb.PersistentClient(
-    path="./chroma_db"
-)
-collection = chroma_client.get_collection(
-    name="csv_documents"
-)
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_collection(name="csv_documents")
+
 st.title("CSV RAG Gemini")
 user_input = st.text_input("Ask something about the space missions")
 if st.button("Submit"):
@@ -31,9 +28,7 @@ if st.button("Submit"):
             n_results=2
         )
         # Get relevant documents
-        context = "\n".join(
-            result["documents"][0]
-        )
+        context = "\n".join(result["documents"][0])
         # Generate answer
         response = client.models.generate_content(
             model="gemini-3.1-flash-lite",
