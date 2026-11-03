@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script type="text/javascript">
+    const apiUrl = "http://localhost:8000/api/agent/chat";
+    async function chatAgent(event) {
+      event.preventDefault();
+      console.log("chat sent");
+      let response = await fetch(apiUrl, {
+        method: "POST",
+        <!-- added this line -->
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: document.getElementById("prompt").value,
+        }),
+      });
+      response = await response.json();
+      console.log(response);
+      document.getElementById("d1").innerHTML =
+        "<pre>" + JSON.stringify(response.Agent) + "</pre>";
+      alert(response.Agent);
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>An AI Post Agent:</h1>
+  </header>
+  <form onsubmit="chatAgent(event)">
+    <div>
+      <textarea required name="prompt" id="prompt" placeholder="e.g getAllPosts , add new Post,Update Post,Delete Post"
+        cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <button>Send</button>
+    </div>
+  </form>
+  <div id="d1"><!--Agent Response will Come Here---></div>
+</body>
+
+</html>

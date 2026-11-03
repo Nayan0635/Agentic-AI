@@ -1,0 +1,14 @@
+-- database: ./postsDB.sqlite3
+
+---create a posts table
+drop table posts;
+create table posts(
+    post_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title text not null,
+    description text not null,
+    created date default CURRENT_DATE
+);
+--insert few sample values
+insert into posts(title,description)values('first title','first description');
+insert into posts(title,description)values('second title','second description');
+insert into posts(title,description)values('third  title','third description');
