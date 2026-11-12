@@ -1,17 +1,24 @@
+from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+
 import streamlit as st
-from langchain_openai import ChatOpenAI
+from tool import sendMail
+
 from dotenv import load_dotenv
 import os
-from function import sendMail
-from langchain_core.prompts import PromptTemplate
 
 load_dotenv()
 
-# Connecting to LLM
-llm = ChatOpenAI(
-    api_key=os.getenv("openai_key"),
-    model="gpt-4.1-mini",
-    temperature=1
+# llm = ChatOpenAI(
+#     api_key= os.getenv("openai_key"),
+#     model= "gpt-4.1-mini",
+#     temperature= 1
+# )
+
+llm = ChatGoogleGenerativeAI(
+    api_key=os.getenv("gemini_key"),
+    model="gemini-3.6-flash",
 )
 llm = llm.bind_tools([sendMail])
 # Streamlit UI
@@ -23,7 +30,7 @@ if st.button("Submit"):
     if user_input.strip():
         # Create Prompt
         prompt = PromptTemplate(
-            template="""
+            template=f"""
                 Please modify the body of the email intelligently.
                 Rules:
                 - Make the message professional and polite.

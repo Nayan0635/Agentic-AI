@@ -1,32 +1,32 @@
 from google import genai
-from dotenv import load_dotenv
-import os
 from tools import tools
 from functions import *
+from dotenv import load_dotenv
+import os
+
 load_dotenv()
 
 client = genai.Client(
     api_key=os.getenv("GOOGLE_API_KEY")
 )
-print("Gemini Connected")
+print("key found")
 
 #ChatLoop
 while True:
     user_input = input("You:")
     if user_input.lower()=='exit':
-        print("Agent:Bye Bye")
+        print("Agent: Cya!")
         exit(0)
     #Connect to LLM.
     responses = client.models.generate_content(
         model="gemini-3.5-flash-lite",
         contents=f'''
-        -You are a Math expert who can perform addition of 2 numbers.
-        -You are a File Expert Agent who can save & read content from created file .
-        User Prompt :{user_input}''',
-config={
-    "tools":tools
-}
-      
+            -You are a Math expert who can perform addition of 2 numbers.
+            -You are a File Expert Agent who can save & read content from created file .
+            User Prompt :{user_input}''',
+        config={
+            "tools":tools
+        }
     )
 
     #Here we need to check whether Gemini is using our defined tools or not.
@@ -44,4 +44,3 @@ config={
         print("Agent :",result)
     else:
         print("Sorry I can either help with addition of file read & write automations")
-            

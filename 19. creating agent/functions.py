@@ -5,8 +5,6 @@ def addNumbers(a:int,b:int)->int:
 def multiplyNumbers(a:int,b:int)->int:
     '''multiply or product of 2 numbers'''
     return a*b
-
-
 #----------------Save & Read file ----------------------#
 def saveFile(content:str)->str:
     '''saving content to local file i.e hello.txt'''

@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 import os
 from tools import *
 
-
-
 load_dotenv()
 
 #connect to llm.

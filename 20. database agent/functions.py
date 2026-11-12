@@ -1,7 +1,7 @@
 from connect import *
 import json
 
-# tool 1
+# @function_tool
 def showAll():
     '''SHOW all records from database'''
     (con, cur) = getConnection()

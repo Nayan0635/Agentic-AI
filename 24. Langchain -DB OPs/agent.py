@@ -22,7 +22,6 @@ tools_by_name:dict={
   "updateUser":updateUser
 }
 
-#Chat Loop :
 while True:
     user_input = input("You :")
     if user_input.lower()=='exit' or user_input.lower()=='quit':

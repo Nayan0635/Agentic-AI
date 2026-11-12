@@ -1,54 +1,58 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-import json
 from tools import tools
 from functions import *
-#for reading from .env file
+import json
+
 load_dotenv()
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
-   
 )
-print("Connected to OpenAI")
+print("key found")
 
 #ChatLoop
 while True:
     user_input = input("You:")
     if user_input.lower()=='exit':
-        print("Agent:Bye Bye")
+        print("Agent: cya!")
         exit(0)
     #Connect to LLM.
     responses = client.chat.completions.create(
         model="gpt-4.1-mini",
-        temperature=1,
-        messages=[
+        temperature= 0.3,
+        message = [
             {
-                "role":"user",
-                "content":f'''
-                 -You are a Math expert who can use addition or multipication tools for calculation.
-                 -You are a File Expert who can read & save file to local file i.e hello.txt
-                 -User Prompt :{user_input}
-'''
+                "role" : "system",
+                "content" : '''
+                    -You are a Math expert who can perform addition of 2 numbers.
+                    -You are a File Expert Agent who can save & read content from created file .
+                '''
+            },
+            {
+                "role": "user",
+                "content": f"User prompt: {user_input}",
             }
         ],
-        tools=tools #Here Ai is using the tool.
+        tools= tools
     )
-    #Check whether AI is using our tools or not.
+
+    #Here we need to check whether Gemini is using our defined tools or not.
     message = responses.choices[0].message
     if message.tool_calls:
+        
         tool_name = message.tool_calls[0].function.name
         tool_args = json.loads(message.tool_calls[0].function.arguments)
-        print("Agent is using tool :",tool_name)
+        
         if tool_name == "addNumbers":
             result = addNumbers(tool_args['a'],tool_args['b'])
-        elif tool_name =="multiplyNumbers":
+        if tool_name == "multiplyNumbers":
             result = multiplyNumbers(tool_args['a'],tool_args['b'])
-        elif tool_name == "saveFile":
-            result = saveFile(tool_args['content'])
-        elif tool_name == "readFile":
-            result = readFile()
-        print("Agent Reply :",result)
+        elif tool_name == "multiplyNumbers":
+            result = multiplyNumbers(tool_args['a'],tool_args['b'])
+        
+        print("Agent :",result)
     else:
-        print("Agent : Sorry I can't help with that.")
+        print("Sorry I can either help with addition of file read & write automations")
+            

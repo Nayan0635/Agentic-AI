@@ -1,32 +1,31 @@
-# for vscode terminal
 from openai import OpenAI
 from dotenv import load_dotenv
 import json
-import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tools import tools
 from functions import *
 
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("openai_key"))
+print("api key found")
 
 while True:
-    _prompt = input("You: ")
-    if _prompt.lower() == 'exit':
+    user_input = input("You: ")
+    if user_input.lower() == 'exit':
         print('Cya! have a good Day')
         exit(0)
         
     responses = client.chat.completions.create(
         model= 'gpt-4.1-mini',
-        temperature= 0,
+        temperature= 0.3,
         messages= [
             {
                 'role': 'user', 'content': f'''
                 -you will insert new student record, upadte, delete and show all records
                 -apart from these say i can't help with that
-                -Prompt: {_prompt}
+                -Prompt: {user_input}
                 '''
             }
         ],

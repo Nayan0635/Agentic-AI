@@ -7,8 +7,7 @@ import os
 load_dotenv()
 
 client = Groq(
-api_key=os.getenv("groq_key")
-
+    api_key=os.getenv("groq_key")
 )
 
 # Example:
@@ -27,15 +26,7 @@ for file in files:
     # Read only source/code files
     if file["type"] == "file":
         file_name = file["name"]
-        if file_name.endswith((
-            ".py",
-            ".js",
-            ".ts",
-            ".jsx",
-            ".tsx",
-            ".md"
-            )):
-
+        if file_name.endswith((".py",".js",".ts",".jsx",".tsx",".md")):
             download_url = file["download_url"]
             file_response = requests.get(download_url)
             repo_content += f"\n\nFILE: {file_name}\n"
@@ -43,9 +34,7 @@ for file in files:
 
 prompt = f"""
     Analyze this GitHub repository.
-
     Repository Content: {repo_content[:15000]}
-
     Please provide:
 
     1. Project Summary
@@ -66,6 +55,7 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 
+# this was provided to us
 # Set API Key
 # Windows CMD
 # set OPENAI_API_KEY=your_api_key

@@ -1,21 +1,27 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from functions import *
 #Here OpenAI tools defination in JSON Goes here
-tools = [{
-    "type":"function",
-    "function":{
-        "name":"addNumbers",
-        "description":addNumbers.__doc__,
-        "parameters":{
-            "type":"object",
-            "properties":{
-                "a":{"type":"number"},
-                "b":{"type":"number"}
-            },
-            "required":['a','b']
+tools = [
+    {
+        "type":"function",
+        "function":{
+            "name":"addNumbers",
+            "description":addNumbers.__doc__,
+            "parameters":{
+                "type":"object",
+                "properties":{
+                    "a":{"type":"number"},
+                    "b":{"type":"number"}
+                },
+                "required":['a','b']
+            }
         }
-    }
-},
-   {
+    },
+    
+    {
        "type":"function",
        "function":{
            "name":"multiplyNumbers",
@@ -29,7 +35,8 @@ tools = [{
                "required":['a','b']
            }
        }
-   },
+    },
+    
    {
        "type":"function",
        "function":{
@@ -43,13 +50,14 @@ tools = [{
                "required":['content']
            }
        }
-   },
-   {
+    },
+   
+    {
        "type":"function",
        "function":{
            "name":"readFile",
            "description":readFile.__doc__,
            "parameters":{}
        }
-   }
+    }
 ]

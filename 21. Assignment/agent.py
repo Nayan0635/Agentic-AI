@@ -7,8 +7,7 @@ from tool import tools
 from functions import *
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("openai_key"))
-
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 while True:
     prompt = input("You: ")
 

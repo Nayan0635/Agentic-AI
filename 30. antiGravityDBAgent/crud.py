@@ -1,14 +1,13 @@
-from database import getConnection
+from connection import *
 import json
 def addNewStudent(name:str,email:str)->str:
     '''adding new student to sqlite3 database'''
-    (con,cursor) = getConnection()
-    cursor.execute("insert into students(name,email)values(?,?)",(name,email))
+    (con,cur) = getConnection()
+    cur.execute("insert into students(name,email)values(?,?)",(name,email))
     con.commit()
-    rows = cursor.rowcount
+    rows = cur.rowcount
     #close the Database connection
-    cursor.close()
-    con.close()
+    closeConnection(cur, con)
 
     if rows == 1:
         return 'One new Student added successfully'
@@ -17,12 +16,11 @@ def addNewStudent(name:str,email:str)->str:
 
 def getAllStudents()->str:
     '''displaying all students from the sqlite3 database'''
-    (con,cursor) = getConnection()
-    cursor.execute("select * from students")
-    rows=cursor.fetchall()
+    (con,cur) = getConnection()
+    cur.execute("select * from students")
+    rows=cur.fetchall()
     students=[] #empty list
-    cursor.close()
-    con.close()
+    closeConnection(cur, con)
     for student in rows:
         students.append({
             "student_id":student[0],
@@ -34,12 +32,11 @@ def getAllStudents()->str:
 
 def getStudent(std_id:int)->str:
     '''getting perticular student depends on student_id from sqlite3 database'''
-    (con,cursor) = getConnection()
-    cursor.execute("select * from students where student_id=?",(std_id,))
-    row =cursor.fetchone()
+    (con,cur) = getConnection()
+    cur.execute("select * from students where student_id=?",(std_id,))
+    row =cur.fetchone()
     #close the datbase connection
-    cursor.close()
-    con.close()
+    closeConnection(cur, con)
     if row:
      return json.dumps({
         "student_id":row[0],
