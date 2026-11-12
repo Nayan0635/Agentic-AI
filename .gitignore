@@ -40,7 +40,7 @@ documents/
 # vector database
 **/chromaDB*/
 **/faissDB*/
-
+database/
 # Test folders
 14.*
 14.*/

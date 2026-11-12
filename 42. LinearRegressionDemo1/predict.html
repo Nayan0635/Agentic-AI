@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HousePrice Prediction</title>
+    <script type="text/javascript">
+          async function handleSubmit(event){
+            //turned off page loading 
+            event.preventDefault();
+            const sqaure_feet = document.getElementById("square_feet").value;
+            const bedrooms    = document.getElementById("bd").value;
+            var dataToSubmit={
+                sqaure_feet,bedrooms
+            };
+            console.log(dataToSubmit);
+            let response = await fetch("http://localhost:3000/calculate",{
+                headers:{
+                   
+        "Content-Type": "application/json",
+        
+    },
+              
+                method:'POST',
+                body:JSON.stringify(dataToSubmit)
+            });
+            response = await response.json();
+            console.log(response);
+
+            document.getElementById("result").innerHTML=`
+             <p>BedRooms :${bedrooms}</p>
+             <p>SquareFt :${sqaure_feet}</p>
+             <p>Predicted Price:${response.newPrice}</p>
+            `;
+
+          }
+    </script>
+</head>
+<body>
+      <h1>House Price Calculator:</h1>
+      <form onsubmit="handleSubmit(event)" onreset="handleReset()">
+      BedRooms : <select name="bd" id="bd" required>
+                  <option>---Choose No of Rooms---</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+      </select>
+      Sqaure Feet: <input type="number" name="square_feet" id="square_feet" required>
+      <button>Calculate</button>
+      <button type="reset">Reset</button>
+      </form>
+      <div id="result"></div>
+</body>
+</html>
