@@ -1,35 +1,37 @@
 import streamlit as st
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 from tools import *
 
-
 load_dotenv()
 
 #connect to llm.
-llm = ChatOpenAI(
-    api_key=os.getenv("openai_key"),
-    model="gpt-4.1-mini",
-    temperature=1
+llm = ChatGoogleGenerativeAI(
+    api_key=os.getenv("gemini_key"),
+    model="gemini-3.1-flash-lite",
 )
-print("OpenAi connected")
+
+# llm = ChatOpenAI(
+#     api_key=os.getenv("openai_key"),
+#     model="gpt-4.1-mini",
+#     temperature=1
+# )
 
 #Binding the tools with the llm.
 llm = llm.bind_tools([addNumbers,multiplyNumbers,saveFile,readFile, total, avg, gradation, score])
-#Quickly create a small effective gui using streamlit
 
-st.title("ArithMetic & File Agent :")
+st.title("Arithmatic & File Agent :")
 textArea = st.text_area("Question :")
 sendBtn = st.button("Submit")
 
 if sendBtn:
-    user_input = textArea
-     #Communicate with the llm.
+    _prompt = textArea
     responses = llm.invoke(f'''
-          Question : {user_input}
+          Question : {_prompt}
         ''')
-        #Here we need to check whether openai is using our defined tools or not.
+    
     if responses.tool_calls:
             tool_name = responses.tool_calls[0]['name']
             tool_args = responses.tool_calls[0]['args']
